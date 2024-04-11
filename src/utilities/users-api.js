@@ -3,7 +3,6 @@ const BASE_URL = '/api/users';
 
 // Refactored code below
 export async function signUp(userData) {
-  console.log(userData)
   try {
     // Send a POST request to the /signup endpoint with the user data
     const token = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);

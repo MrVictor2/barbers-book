@@ -12,7 +12,6 @@ async function create(req, res) {
   try {
     // Add the user to the db
     const user = await User.create(req.body);
-    console.log(req.body)
     // Generate JWT token for the user
     const token = createJWT(user);
     // Return token as JSON response

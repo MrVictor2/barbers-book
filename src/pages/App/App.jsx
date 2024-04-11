@@ -7,8 +7,8 @@ import LoginPage from './LoginPage/LoginPage';
 import NavBar from '../../components/NavBar/NavBar';
 import NotePage from '../NotePage/NotePage';
 import BarberPage from '../BarberPage/BarberPage';
-
 import CustomerPage from '../CustomerPage/CustomerPage';
+import AppointmentPage from '../AppointmentPage/AppointmentPage';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -35,8 +35,9 @@ export default function App() {
             <NavBar user={user} onLogout={handleLogout} />
             <Routes>
               <Route path="/notes" element={<NotePage />} />
-                          <Route path="/customer" element={<CustomerPage />} />
-            <Route path="/barber" element={<BarberPage />} />
+            <Route path="/customer" element={<CustomerPage />} />
+            <Route path="/barbers" element={<BarberPage />} />
+            <Route path="/appointments" element={<AppointmentPage />} />
               <Route path="/" element={<Navigate to="/notes" />} /> 
             </Routes>
           </>

@@ -22,12 +22,11 @@ export default function LoginForm({ setUser }) {
       const user = await usersService.login(credentials);
       // Set the user state including the name
       setUser(user);
-      console.log(user.type)
       // Redirect based on user type
       if (user.type === 'customer') {
-        navigate('/customer');
+        navigate('/appointments');
       } else if (user.type === 'barber') {
-        navigate('/barber');
+        navigate('/appointments');
       } else {
         // Handle other user types or unexpected data
         navigate('/notes');
