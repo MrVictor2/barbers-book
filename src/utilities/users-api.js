@@ -22,3 +22,17 @@ export function login(credentials) {
 export function checkToken() {
   return sendRequest(`${BASE_URL}/check-token`);
 }
+
+export async function getUserByType(type) {
+  try {
+    console.log(`Fetching users by type: ${type}`);
+    const url = `${BASE_URL}?type=${type}`;
+    console.log('Request URL:', url);
+    const users = await sendRequest(url);
+    console.log('Users fetched successfully:', users);
+    return users;
+  } catch (error) {
+    console.error('Error fetching users by type:', error);
+    throw error;
+  }
+}

@@ -6,7 +6,7 @@ import AuthPage from '../AuthPage/AuthPage';
 import LoginPage from './LoginPage/LoginPage';
 import NavBar from '../../components/NavBar/NavBar';
 import NotePage from '../NotePage/NotePage';
-import BarberPage from '../BarberPage/BarberPage';
+import BarbersPage from '../BarbersPage/BarbersPage';
 import CustomerPage from '../CustomerPage/CustomerPage';
 import AppointmentPage from '../AppointmentPage/AppointmentPage';
 
@@ -36,7 +36,7 @@ export default function App() {
             <Routes>
               <Route path="/notes" element={<NotePage />} />
             <Route path="/customer" element={<CustomerPage />} />
-            <Route path="/barbers" element={<BarberPage />} />
+            <Route path="/barbers" element={<BarbersPage />} />
             <Route path="/appointments" element={<AppointmentPage />} />
               <Route path="/" element={<Navigate to="/notes" />} /> 
             </Routes>

@@ -19,11 +19,11 @@
     "serve-favicon": "^2.5.0"
   },
   "scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
-},
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -31,9 +31,19 @@
     ],
     "overrides": [
       {
-        "files": ["**/*.jsx"],
+        "files": [
+          "**/*.jsx"
+        ],
         "rules": {
-          "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+          "react/jsx-filename-extension": [
+            1,
+            {
+              "extensions": [
+                ".js",
+                ".jsx"
+              ]
+            }
+          ]
         }
       }
     ]

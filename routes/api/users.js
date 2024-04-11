@@ -12,4 +12,7 @@ router.post('/login', usersCtrl.login);
 // GET /api/users/check-token
 router.get('/check-token', ensureLoggedIn, usersCtrl.checkToken);
 
+// GET /api/users?type=:type (fetch users by type)
+router.get('/', ensureLoggedIn, usersCtrl.getByType); // This line should be added
+
 module.exports = router;
