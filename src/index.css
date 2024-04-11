@@ -21,7 +21,7 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--tan-4);
+  background-color: lightgrey;
   padding: 2vmin;
   height: 100vh;
 }
@@ -174,26 +174,29 @@ button[type="submit"] {
   display: flex;
   flex-direction: column;
   align-self: center;
+  
 }
 
 .logo-cafe {
   display: inline-block;
   width: 150px;
   height: 150px;
-  line-height: 50px;
+  line-height: 25px;
   border: #FFFFFF solid 4px;
-  background-color: var(--orange);
+  background-color: black;
   color: white;
   text-decoration: none;
   font-size: 20px;
   border-radius: 100%;
-  margin-bottom: 20px;
-  padding-top: 20px;
+  margin-bottom: 10px;
+  padding-top: 0px;
+  align-content: center;
 }
 
 
 .sign-up-link{
   text-decoration: none;
+  
 }
 
 .login-content-container {
@@ -201,5 +204,9 @@ button[type="submit"] {
   justify-content:space-evenly;
   align-items: center;
   align-content: center;
+  color: white;
+  margin-right: 260px;
+  margin-top: 190px;
 }
+
 
