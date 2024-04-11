@@ -178,8 +178,8 @@ button[type="submit"] {
 
 .logo-cafe {
   display: inline-block;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   line-height: 50px;
   border: #FFFFFF solid 4px;
   background-color: var(--orange);

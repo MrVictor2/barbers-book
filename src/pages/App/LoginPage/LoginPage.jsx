@@ -8,7 +8,7 @@ export default function LoginPage({ setUser }) {
       <div>
         <div className='signup-button-container'>
           <Link className="logo-cafe">
-          NOTES
+          BARBER'S BOOK
         </Link>
           <Link to="/signup" className='sign-up-link'>
           SIGN UP
