@@ -1,18 +1,28 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 const bcrypt = require('bcrypt');
+const Service = require('../../models/service'); 
 
 module.exports = {
   create,
   login,
   checkToken,
-  getByType // Add this line to export the getByType function
+  getByType
 };
 
 async function create(req, res) {
   try {
-    // Add the user to the db
-    const user = await User.create(req.body);
+    const { name, email, password, type, services } = req.body;
+    const user = await User.create({ name, email, password, type });
+
+    // If user type is barber, add services
+    if (type === 'barber' && services && services.length > 0) {
+      // Create services and associate them with the user
+      const createdServices = await Service.create(services);
+      user.services = createdServices.map(service => service._id);
+      await user.save();
+    }
+
     // Generate JWT token for the user
     const token = createJWT(user);
     // Return token as JSON response

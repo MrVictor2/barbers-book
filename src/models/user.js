@@ -14,7 +14,8 @@ const userSchema = new Schema({
     required: true
   },
   password: { type: String, required: true },
-  type: { type: String, enum: ['customer', 'barber'], required: true } // New field for user type
+  type: { type: String, enum: ['customer', 'barber'], required: true },
+  services: [{ type: Schema.Types.ObjectId, ref: 'Service' }] 
 }, {
   timestamps: true,
   toJSON: {

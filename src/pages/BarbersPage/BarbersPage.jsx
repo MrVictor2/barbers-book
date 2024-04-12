@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getBarbers } from "../../utilities/barbers-service";
+import { getServiceById } from "../../utilities/services-service";
 
 function BarbersPage() {
   const [barbers, setBarbers] = useState([]);
   const [selectedBarber, setSelectedBarber] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
+  const [showServices, setShowServices] = useState(false); // Initially hide services
 
   useEffect(() => {
     const fetchBarbers = async () => {
@@ -17,17 +19,37 @@ function BarbersPage() {
     fetchBarbers();
   }, []);
 
-  function handleBarberSelection(barber) {
-    setSelectedBarber(barber);
+  async function fetchServiceDetails(serviceIds) {
+    const servicePromises = serviceIds.map((serviceId) =>
+      getServiceById(serviceId)
+    );
+    const services = await Promise.all(servicePromises);
+    return services;
+  }
+
+  async function handleBarberSelection(barber) {
+    if (selectedBarber === barber) {
+      setSelectedBarber(null);
+      setShowServices(false); // Hide services when barber is unselected
+    } else {
+      setSelectedBarber(barber);
+      setShowServices(true); // Show services when barber is selected
+      setSelectedServices([]); // Reset selected services
+      const services = await fetchServiceDetails(barber.services);
+      setSelectedServices(
+        services.map((service) => ({ ...service, selected: false }))
+      );
+    }
   }
 
   function handleServiceSelection(serviceId) {
-    const isSelected = selectedServices.includes(serviceId);
-    if (isSelected) {
-      setSelectedServices(selectedServices.filter((id) => id !== serviceId));
-    } else {
-      setSelectedServices([...selectedServices, serviceId]);
-    }
+    setSelectedServices((prevServices) =>
+      prevServices.map((service) =>
+        service._id === serviceId
+          ? { ...service, selected: !service.selected }
+          : service
+      )
+    );
   }
 
   function handleDateChange(event) {
@@ -35,39 +57,7 @@ function BarbersPage() {
   }
 
   async function handleCreateAppointment() {
-    // try {
-    //   const appointmentData = {
-    //     barberId: selectedBarber.id,
-    //     services: selectedServices,
-    //     date: selectedDate
-    //   };
-
-    //   const response = await fetch('/api/appointments', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(appointmentData)
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error('Failed to create appointment');
-    //   }
-
-    //   // Reset the state after successful appointment creation
-    //   setSelectedBarber(null);
-    //   setSelectedServices([]);
-    //   setSelectedDate('');
-    //   alert('Appointment created successfully!');
-    // } catch (error) {
-    //   console.error('Error creating appointment:', error);
-    //   alert('Failed to create appointment. Please try again.');
-    // }
-    alert("Appointment created");
-  }
-
-  async function toggleSelectedService() {
-    alert("service selected");
+    // Your logic to create an appointment
   }
 
   return (
@@ -75,27 +65,40 @@ function BarbersPage() {
       <h2>Barbers</h2>
       <div className="barbers-container">
         {barbers.map((barber) => (
-          <div className="barber-card" key={barber.id}>
+          <div className="barber-card" key={barber._id}>
+            <input
+              type="checkbox"
+              id={`selectBarber-${barber._id}`}
+              checked={selectedBarber === barber}
+              onChange={() => handleBarberSelection(barber)}
+            />
+            <label htmlFor={`selectBarber-${barber._id}`}>
+              Select this Barber
+            </label>
             <img
               src="https://www.josephguinbarber.com/uploads/1/2/4/4/124499791/josephguinhome_orig.jpg"
               alt="Barber"
               className="barber-image"
             />
             <h3>{barber.name}</h3>
-            <div className="services">
-              {barber.services &&
-                barber.services.map((service) => (
-                  <div className="service-checkbox" key={service.id}>
-                    <input
-                      type="checkbox"
-                      id={service.id}
-                      checked={selectedServices.includes(service.id)}
-                      onChange={() => toggleSelectedService(service.id)}
-                    />
-                    <label htmlFor={service.id}>{service.name}</label>
-                  </div>
-                ))}
-            </div>
+            {selectedBarber === barber &&
+              showServices && ( // Show services only if barber is selected and showServices is true
+                <div className="services">
+                  {selectedServices.map((service) => (
+                    <div className="service-checkbox" key={service._id}>
+                      <input
+                        type="checkbox"
+                        id={service._id}
+                        checked={service.selected}
+                        onChange={() => handleServiceSelection(service._id)}
+                      />
+                      <label htmlFor={service._id}>
+                        {service.name} - Price: {service.price}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
             <input
               type="date"
               value={selectedDate}
