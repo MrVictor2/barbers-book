@@ -12,14 +12,23 @@ module.exports = {
 
 async function create(req, res) {
   try {
-    const { name, email, password, type, services } = req.body;
+    const { name, email, password, type } = req.body;
+
+    // Create the user
     const user = await User.create({ name, email, password, type });
 
-    // If user type is barber, add services
-    if (type === 'barber' && services && services.length > 0) {
-      // Create services and associate them with the user
-      const createdServices = await Service.create(services);
-      user.services = createdServices.map(service => service._id);
+    // If user type is barber, add default services
+    if (type === 'barber') {
+      // Fetch default services from the "services" collection
+      const defaultServices = await Service.find({});
+      
+      // Map the default services to their IDs
+      const defaultServiceIds = defaultServices.map(service => service._id);
+
+      // Assign the defaultServiceIds array to the user's services property
+      user.services = defaultServiceIds;
+      
+      // Save the user with the initialized services collection
       await user.save();
     }
 
