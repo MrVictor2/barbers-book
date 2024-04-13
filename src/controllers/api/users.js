@@ -7,8 +7,23 @@ module.exports = {
   create,
   login,
   checkToken,
-  getByType
+  getByType,
+  getUserById 
 };
+
+async function getUserById(req, res) {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 async function create(req, res) {
   try {

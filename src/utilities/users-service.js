@@ -1,13 +1,15 @@
-import * as usersAPI from './users-api';
+import sendRequest from './send-request';
+
+const BASE_URL = '/api/users';
 
 export async function signUp(userData) {
-  const token = await usersAPI.signUp(userData);
+  const token = await sendRequest(`${BASE_URL}/signup`, 'POST', userData);
   localStorage.setItem('token', token);
   return getUser();
 }
 
 export async function login(credentials) {
-  const token = await usersAPI.login(credentials);
+  const token = await sendRequest(`${BASE_URL}/login`, 'POST', credentials);
   localStorage.setItem('token', token);
   return getUser();
 }
@@ -34,11 +36,14 @@ export function getUser() {
 }
 
 export function checkToken() {
-  // Just so that you don't forget how to use .then
-  return usersAPI.checkToken()
+  return sendRequest(`${BASE_URL}/check-token`);
+}
 
-    // checkToken returns a string, but let's 
-    // make it a Date object for more flexibility
-    .then(dateStr => new Date(dateStr));
-
+export async function getUserById(userId) {
+  try {
+    const user = await sendRequest(`${BASE_URL}/${userId}`);
+    return user;
+  } catch (error) {
+    throw new Error('Error fetching user by ID');
+  }
 }

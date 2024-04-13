@@ -15,4 +15,6 @@ router.get('/check-token', ensureLoggedIn, usersCtrl.checkToken);
 // GET /api/users?type=:type (fetch users by type)
 router.get('/', ensureLoggedIn, usersCtrl.getByType); // This line should be added
 
+router.get('/:id', ensureLoggedIn, usersCtrl.getUserById);
+
 module.exports = router;
