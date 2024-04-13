@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { getBarbers } from "../../utilities/barbers-service";
 import { getServiceById } from "../../utilities/services-service";
+import { getUser } from "../../utilities/users-service";
+import { createAppointment } from "../../utilities/appointments-service";
 
 function BarbersPage() {
   const [barbers, setBarbers] = useState([]);
@@ -9,6 +11,7 @@ function BarbersPage() {
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [showServices, setShowServices] = useState(false); // Initially hide services
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchBarbers = async () => {
@@ -57,7 +60,41 @@ function BarbersPage() {
   }
 
   async function handleCreateAppointment() {
-    // Your logic to create an appointment
+    if (!selectedBarber || selectedServices.length === 0 || !selectedDate) {
+      // Add appropriate error handling, e.g., show a message to the user
+      alert("Please select a barber, services, and date.");
+      return;
+    }
+
+    // Get the logged-in user (customer)
+    const customer = getUser();
+    if (!customer) {
+      // Handle case where user is not logged in
+      console.error("User not logged in.");
+      return;
+    }
+
+    // Filter out only the selected services
+    const selectedServicesIds = selectedServices
+      .filter((service) => service.selected)
+      .map((service) => service._id);
+
+    const appointmentData = {
+      customer: customer._id,
+      barber: selectedBarber._id,
+      appointmentDate: selectedDate,
+      services: selectedServicesIds, // Use only the selected service IDs
+    };
+
+    try {
+      await createAppointment(appointmentData);
+      // Optionally, you can show a success message or redirect the user
+      alert("Appointment created successfully!");
+      navigate("/appointments");
+    } catch (error) {
+      // Handle error, e.g., show error message to the user
+      console.error("Error creating appointment:", error);
+    }
   }
 
   return (
@@ -81,24 +118,23 @@ function BarbersPage() {
               className="barber-image"
             />
             <h3>{barber.name}</h3>
-            {selectedBarber === barber &&
-              showServices && ( // Show services only if barber is selected and showServices is true
-                <div className="services">
-                  {selectedServices.map((service) => (
-                    <div className="service-checkbox" key={service._id}>
-                      <input
-                        type="checkbox"
-                        id={service._id}
-                        checked={service.selected}
-                        onChange={() => handleServiceSelection(service._id)}
-                      />
-                      <label htmlFor={service._id}>
-                        {service.name} - Price: {service.price}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              )}
+            {selectedBarber === barber && showServices && (
+              <div className="services">
+                {selectedServices.map((service) => (
+                  <div className="service-checkbox" key={service._id}>
+                    <input
+                      type="checkbox"
+                      id={service._id}
+                      checked={service.selected}
+                      onChange={() => handleServiceSelection(service._id)}
+                    />
+                    <label htmlFor={service._id}>
+                      {service.name} - Price: {service.price}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
             <input
               type="date"
               value={selectedDate}

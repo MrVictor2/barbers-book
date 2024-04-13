@@ -22,7 +22,10 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/notes', require('./routes/api/notes'));
 
 // API routes for services
-app.use('/api/services', require('./routes/api/services')); // Add this line
+app.use('/api/services', require('./routes/api/services'));
+
+// API routes for appointments
+app.use('/api/appointments', require('./routes/api/appointments')); // Add this line
 
 // Catch all route to serve index.html
 app.get('/*', function(req, res) {
