@@ -154,7 +154,7 @@ function BarbersPage() {
           </div>
         ))}
       </div>
-      <Link to="/appointments">Back to Appointments</Link>
+      <Link to="/appointments">Back to My Appointments</Link>
     </div>
   );
 }

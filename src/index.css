@@ -218,11 +218,13 @@ color: rgb(203, 190, 192)
 }
 
 .barber-card {
-  border: 1px solid #ccc;
+  border: 1px solid rgb(139, 170, 219, 0.5) ;
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: rgb(248, 197, 131);
+  font-weight: bolder;
 }
 
 .barber-image {
@@ -232,4 +234,56 @@ color: rgb(203, 190, 192)
   margin-bottom: 10px;
   object-fit: cover; 
 }
+a {
+  color: white;
+  font-size: 20px;
+  text-decoration: none;
+  font-weight: bolder;
+
+}
+nav {
+  margin-top: 20px;
+  margin-right: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+a:hover {
+  color: tan;
+}
+.welcome {
+  color: tan;
+  font-size: 30px;
+  font-weight: bolder;
+  margin-top: -10px;
+}
+h2 {
+  color: white;
+  margin-top: 150px;
+  text-decoration: underline;
+
+}
+
+.no-appointments{
+  color:white;
+}
+
+label {
+  color: white;
+}
+p {
+  color: white;
+  font-weight: bolder;
+}
+h3 {
+  margin-top: 80px;
+  color: rgb(248, 197, 131);
+}
+ li {
+  color: white;
+  font-weight: bolder;
+  background-color: rgb(203, 190, 192, 0.4);
+  width:0;
+  margin-left: 50%;
+ }
+
 

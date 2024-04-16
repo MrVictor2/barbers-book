@@ -30,7 +30,7 @@ function MyAppointmentsPage() {
     <div>
       <h2>My Appointments</h2>
       {appointments.length === 0 ? (
-        <div>No appointments found.</div>
+        <div className="no-appointments">No appointments found.</div>
       ) : (
         <div>
           {appointments.map((appointment) => (

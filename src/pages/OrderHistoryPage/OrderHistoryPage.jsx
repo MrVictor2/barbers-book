@@ -18,7 +18,7 @@ export default function OrderHistoryPage() {
     <div>
     <div>
       <h1>Order History</h1>
-      <button onClick={handleCheckToken}>Check When My Login Expires</button>
+      <button onClick={handleCheckToken}>Check When My Login    Expires</button>
     </div>
     </div>
     
