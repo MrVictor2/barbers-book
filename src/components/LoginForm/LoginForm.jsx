@@ -29,7 +29,6 @@ export default function LoginForm({ setUser }) {
         navigate('/appointments');
       } else {
         // Handle other user types or unexpected data
-        navigate('/notes');
       }
     } catch {
       setError('Log In Failed - Try Again');

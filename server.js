@@ -18,8 +18,6 @@ const port = process.env.PORT || 3001;
 // API routes for users
 app.use('/api/users', require('./routes/api/users'));
 
-// API routes for notes
-app.use('/api/notes', require('./routes/api/notes'));
 
 // API routes for services
 app.use('/api/services', require('./routes/api/services'));

@@ -5,7 +5,6 @@ import "./App.css";
 import AuthPage from "../AuthPage/AuthPage";
 import LoginPage from "./LoginPage/LoginPage";
 import NavBar from "../../components/NavBar/NavBar";
-import NotePage from "../NotePage/NotePage";
 import BarbersPage from "../BarbersPage/BarbersPage";
 import CustomerPage from "../CustomerPage/CustomerPage";
 import MyAppointmentsPage from "../MyAppointmentsPage/MyAppointmentsPage";
@@ -35,11 +34,9 @@ export default function App() {
 
           <NavBar user={user} onLogout={handleLogout} />
           <Routes>
-            <Route path="/notes" element={<NotePage />} />
             <Route path="/customer" element={<CustomerPage />} />
             <Route path="/barbers" element={<BarbersPage />} />
             <Route path="/appointments" element={<MyAppointmentsPage />} />
-            <Route path="/" element={<Navigate to="/notes" />} />
           </Routes>
         </>
       ) : (
