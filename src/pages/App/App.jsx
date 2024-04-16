@@ -30,8 +30,10 @@ export default function App() {
 
   return (
     <main className="App">
+      <img src="/barberpole.jpg" alt=""></img>
       {user ? (
         <>
+
           <NavBar user={user} onLogout={handleLogout} />
           <Routes>
             <Route path="/notes" element={<NotePage />} />

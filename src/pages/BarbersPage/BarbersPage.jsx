@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { getBarbers } from "../../utilities/barbers-service";
 import { getServiceById } from "../../utilities/services-service";
-import { getUser } from "../../utilities/users-service";
+import { getUser, getUserById } from "../../utilities/users-service";
 import { createAppointment } from "../../utilities/appointments-service";
 
 function BarbersPage() {
@@ -74,6 +74,9 @@ function BarbersPage() {
       return;
     }
 
+    // Fetch customer details
+    const customerDetails = await getUserById(customer._id);
+
     // Filter out only the selected services
     const selectedServicesIds = selectedServices
       .filter((service) => service.selected)
@@ -81,6 +84,7 @@ function BarbersPage() {
 
     const appointmentData = {
       customer: customer._id,
+      customerName: customerDetails.name, // Add customer's name to appointment data
       barber: selectedBarber._id,
       appointmentDate: selectedDate,
       services: selectedServicesIds, // Use only the selected service IDs

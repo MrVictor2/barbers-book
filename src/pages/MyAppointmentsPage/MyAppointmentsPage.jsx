@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getMyAppointments } from "../../utilities/appointments-service";
+import { getUser } from "../../utilities/users-service"; // Import getUser
 
 function MyAppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const user = getUser(); // Get the logged-in user
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -33,7 +35,12 @@ function MyAppointmentsPage() {
         <div>
           {appointments.map((appointment) => (
             <div key={appointment._id}>
-              <h3>Barber: {appointment.barber.name}</h3>
+              <h3>
+                {/* Conditionally display barber or customer details */}
+                {user.type === "customer"
+                  ? `Barber: ${appointment.barber.name}`
+                  : `Customer: ${appointment.customer.name}`}
+              </h3>
               <p>Appointment Date: {appointment.appointmentDate}</p>
               <p>Services:</p>
               <ul>
