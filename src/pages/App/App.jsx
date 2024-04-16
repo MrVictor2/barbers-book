@@ -30,7 +30,6 @@ export default function App() {
 
   return (
     <main className="App">
-      <img src="/barberpole.jpg" alt=""></img>
       {user ? (
         <>
 

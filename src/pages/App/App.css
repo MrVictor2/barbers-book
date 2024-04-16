@@ -36,9 +36,8 @@
     transform: rotate(360deg);
   }
 }
-img {
-  
-  width: 100%;
-  height: 901px;
+body {
+  background-image: url("/public/barberpole.jpg");
+  background-size: 100%;
 
 }

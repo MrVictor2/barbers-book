@@ -21,7 +21,7 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: lightgrey;
+  background-color: rgb(25, 34, 44);
   
 }
 
@@ -170,7 +170,7 @@ button[type="submit"] {
 .signup-button-container {
   position: absolute;
   top: 30%;
-  left: 20px; /* Adjust the left position as needed */
+  left: 1150px; /* Adjust the left position as needed */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -196,10 +196,14 @@ button[type="submit"] {
 }
 
 
-.sign-up-link{
+.sign-up-link {
   text-decoration: none;
   color: white;
+  margin-bottom: 300px;
   
+}
+.sign-up-link:hover {
+color: rgb(203, 190, 192)
 }
 
 .login-content-container {
@@ -208,7 +212,9 @@ button[type="submit"] {
   align-items: center;
   align-content: center;
   color: white;
-  margin-top: -500px;
+  margin-top: 250px;
+  margin-right: 200px;
+
 }
 
 .barber-card {
