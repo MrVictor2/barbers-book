@@ -168,42 +168,47 @@ button[type="submit"] {
 }
 
 .signup-button-container {
-  position: absolute;
-  top: 30%;
-  left: 1150px; /* Adjust the left position as needed */
-  transform: translateY(-50%);
+  position:absolute; 
+    top: 30%;
+  left: 1200px;  /*Adjust the left position as needed */
+  transform: translateY(-50%); 
   display: flex;
   flex-direction: column;
-  align-self: center;
+  align-self: auto;
   
 }
 
-.logo-cafe {
+.logo-barber {
   display: inline-block;
   width: 150px;
   height: 150px;
   line-height: 25px;
-  border: #FFFFFF solid 4px;
-  background-color: black;
-  color: white;
+  border:  rgb(255, 255, 255) solid 4px;
+  background: linear-gradient(to left top, rgb(159, 25, 38, 1) 20%, rgb(255, 255, 255,1) 50%,  rgba(33,49,115, 1) 80%);
+  /* color: rgb(65, 63, 63); */
+  color: rgb(25, 39, 97);
   text-decoration: none;
   font-size: 20px;
   border-radius: 100%;
   margin-top: 100px;
   margin-bottom: 10px;
-  padding-top: 10px;
+  
+  padding-top: 5px;
   align-content: center;
+}
+.logo-barber:hover {
+  color: rgb(65, 63, 63);
 }
 
 
 .sign-up-link {
   text-decoration: none;
-  color: white;
+  color: #FFFFFF;
   margin-bottom: 300px;
   
 }
 .sign-up-link:hover {
-color: rgb(203, 190, 192)
+color: rgb(239, 209, 180);
 }
 
 .login-content-container {
@@ -248,7 +253,7 @@ nav {
   justify-content: space-between;
 }
 a:hover {
-  color: tan;
+  color:  tan;
 }
 .welcome {
   color: tan;

@@ -68,7 +68,7 @@ export async function getMyAppointments() {
         return appointmentsWithDetails;
       }
 
-      // If the user is a barber, fetch appointments where the barber's ID matches the logged-in user's ID
+      // If the user is a barber, fetch appointments where the barbers ID matches the logged-in user's ID
       if (user.type === "barber") {
         const appointments = await sendRequest(BASE_URL);
 
