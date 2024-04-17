@@ -15,7 +15,7 @@ export default function LoginPage({ setUser }) {
         </Link>
         </div>
          <div className="login-form-container">
-        <h1> SIGN UP</h1>
+        {/* <h1> SIGN UP</h1> */}
         <SignUpForm setUser={setUser} />
       </div>
       </div>
