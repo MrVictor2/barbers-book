@@ -172,7 +172,7 @@ button[type="submit"] {
 .signup-button-container {
   position:absolute; 
     top: 30%;
-  left: 1470px;  /*Adjust the left position as needed */
+  left: 1250px;  /*Adjust the left position as needed */
   transform: translateY(-50%); 
   display: flex;
   flex-direction: column;
@@ -220,7 +220,7 @@ color: rgb(239, 209, 180);
   color: white;
   font-weight: bolder;
   margin-top: 250px;
-  margin-right: 200px;
+  margin-right: 250px;
 
 }
 
