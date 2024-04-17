@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Getting Started with Barbers Book
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an application to create a barber shop appointments.
+You can choose your favorite barber from a barber list
 
 ## Available Scripts
 

@@ -38,6 +38,6 @@
 }
 body {
   background-image: url("/public/barberpole.jpg");
-  background-size: cover;
+  background-size: 100%;
 
 }

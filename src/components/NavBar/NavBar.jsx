@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
-import * as userService from '../../utilities/users-service';
+import { Link, useNavigate } from "react-router-dom";
+import * as userService from "../../utilities/users-service";
 
 export default function NavBar({ user, setUser }) {
   const navigate = useNavigate();
@@ -8,19 +8,19 @@ export default function NavBar({ user, setUser }) {
     userService.logOut();
     setUser(null);
     // Redirect to the login page
-    navigate('/login');
+    navigate("/login");
   }
 
   return (
-
     <nav>
-      <span className='welcome'>Welcome, {user.name}</span>
-
+      <span className="welcome">Welcome, {user.name}</span>
       <Link to="/appointments">My Appointments</Link>
       &nbsp;&nbsp;
-      {user.type === 'customer' && <Link to="/barbers">Barbers</Link>}
-      &nbsp;&nbsp;
-      &nbsp;&nbsp;<Link to="" onClick={handleLogOut}>Log Out</Link>
+      {user.type === "customer" && <Link to="/barbers">Barbers List</Link>}
+      &nbsp;&nbsp; &nbsp;&nbsp;
+      <Link to="" onClick={handleLogOut}>
+        Log Out
+      </Link>
     </nav>
   );
 }
