@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { getBarbers } from "../../utilities/barbers-service";
 import { getServiceById } from "../../utilities/services-service";
 import { getUser, getUserById } from "../../utilities/users-service";
@@ -9,9 +9,9 @@ function BarbersPage() {
   const [barbers, setBarbers] = useState([]);
   const [selectedBarber, setSelectedBarber] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
-  const [selectedDate, setSelectedDate] = useState("");
-  const [showServices, setShowServices] = useState(false); // Initially hide services
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [selectedDate, setSelectedDate] = useState(""); // Initially set as empty
+  const [showServices, setShowServices] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBarbers = async () => {
@@ -20,6 +20,8 @@ function BarbersPage() {
     };
 
     fetchBarbers();
+    const currentDate = new Date().toISOString().slice(0, 16); // Format current date and time
+    setSelectedDate(currentDate); // Set default date and time
   }, []);
 
   async function fetchServiceDetails(serviceIds) {
@@ -33,11 +35,11 @@ function BarbersPage() {
   async function handleBarberSelection(barber) {
     if (selectedBarber === barber) {
       setSelectedBarber(null);
-      setShowServices(false); // Hide services when barber is unselected
+      setShowServices(false);
     } else {
       setSelectedBarber(barber);
-      setShowServices(true); // Show services when barber is selected
-      setSelectedServices([]); // Reset selected services
+      setShowServices(true);
+      setSelectedServices([]);
       const services = await fetchServiceDetails(barber.services);
       setSelectedServices(
         services.map((service) => ({ ...service, selected: false }))
@@ -61,42 +63,34 @@ function BarbersPage() {
 
   async function handleCreateAppointment() {
     if (!selectedBarber || selectedServices.length === 0 || !selectedDate) {
-      // Add appropriate error handling, e.g., show a message to the user
       alert("Please select a barber, services, and date.");
       return;
     }
 
-    // Get the logged-in user (customer)
     const customer = getUser();
     if (!customer) {
-      // Handle case where user is not logged in
       console.error("User not logged in.");
       return;
     }
 
-    // Fetch customer details
     const customerDetails = await getUserById(customer._id);
-
-    // Filter out only the selected services
     const selectedServicesIds = selectedServices
       .filter((service) => service.selected)
       .map((service) => service._id);
 
     const appointmentData = {
       customer: customer._id,
-      customerName: customerDetails.name, // Add customer's name to appointment data
+      customerName: customerDetails.name,
       barber: selectedBarber._id,
       appointmentDate: selectedDate,
-      services: selectedServicesIds, // Use only the selected service IDs
+      services: selectedServicesIds,
     };
 
     try {
       await createAppointment(appointmentData);
-      // Optionally, you can show a success message or redirect the user
       alert("Appointment created successfully!");
       navigate("/appointments");
     } catch (error) {
-      // Handle error, e.g., show error message to the user
       console.error("Error creating appointment:", error);
     }
   }
@@ -113,9 +107,7 @@ function BarbersPage() {
               checked={selectedBarber === barber}
               onChange={() => handleBarberSelection(barber)}
             />
-            <label htmlFor={`selectBarber-${barber._id}`}>
-              Select this Barber
-            </label>
+            <label htmlFor={`selectBarber-${barber._id}`}>Select this Barber</label>
             <img
               src="https://www.josephguinbarber.com/uploads/1/2/4/4/124499791/josephguinhome_orig.jpg"
               alt="Barber"
@@ -140,10 +132,10 @@ function BarbersPage() {
               </div>
             )}
             <input
-              type="date"
+              type="datetime-local"
               value={selectedDate}
               onChange={handleDateChange}
-              className="date-selector"
+              className="date-time-selector"
             />
             <button
               onClick={handleCreateAppointment}

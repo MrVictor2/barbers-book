@@ -4,16 +4,18 @@ import { getServiceById } from "./services-service";
 
 const BASE_URL = "/api/appointments";
 
-// Function to format date to YYYY-MM-DD
+// Function to format date and time to YYYY-MM-DD HH:mm
 function formatDate(dateString) {
-  console.log("Formatting date:", dateString);
+  console.log("Formatting date and time:", dateString);
   const dateObject = new Date(dateString);
   const year = dateObject.getFullYear();
-  const month = String(dateObject.getMonth() + 1).padStart(2, "0");
-  const day = String(dateObject.getDate()).padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
-  console.log("Formatted date:", formattedDate);
-  return formattedDate;
+  const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObject.getDate()).padStart(2, '0');
+  const hours = String(dateObject.getHours()).padStart(2, '0');
+  const minutes = String(dateObject.getMinutes()).padStart(2, '0');
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+  console.log("Formatted date and time:", formattedDateTime);
+  return formattedDateTime;
 }
 
 export async function createAppointment(appointmentData) {
@@ -30,81 +32,34 @@ export async function createAppointment(appointmentData) {
 }
 
 export async function getMyAppointments() {
-  console.log("**************************");
   try {
     const user = getUser(); // Get the logged-in user
 
-    // If the user is logged in
     if (user) {
-      // If the user is a customer, fetch appointments made by the customer
-      if (user.type === "customer") {
-        const appointments = await sendRequest(BASE_URL);
+      const appointments = await sendRequest(BASE_URL);
+      const appointmentsWithDetails = await Promise.all(
+        appointments.map(async (appointment) => {
+          const entityDetails = user.type === "customer" ?
+            await getUserById(appointment.barber) : await getUserById(appointment.customer);
+          const servicePromises = appointment.services.map(serviceId =>
+            getServiceById(serviceId)
+          );
+          const services = await Promise.all(servicePromises);
+          const formattedDate = formatDate(appointment.appointmentDate);
 
-        // Fetch details for each appointment
-        const appointmentsWithDetails = await Promise.all(
-          appointments.map(async (appointment) => {
-            // Fetch barber details
-            const barber = await getUserById(appointment.barber);
+          return {
+            ...appointment,
+            entityDetails,
+            services,
+            appointmentDate: formattedDate,
+          };
+        })
+      );
 
-            // Fetch service details for each service ID
-            const servicePromises = appointment.services.map((serviceId) =>
-              getServiceById(serviceId)
-            );
-            const services = await Promise.all(servicePromises);
-
-            // Format appointmentDate to YYYY-MM-DD
-            const formattedDate = formatDate(appointment.appointmentDate);
-            console.log("Testing customer date");
-
-            return {
-              ...appointment,
-              barber,
-              services,
-              appointmentDate: formattedDate,
-            };
-          })
-        );
-
-        return appointmentsWithDetails;
-      }
-
-      // If the user is a barber, fetch appointments where the barbers ID matches the logged-in user's ID
-      if (user.type === "barber") {
-        const appointments = await sendRequest(BASE_URL);
-
-        // Fetch details for each appointment
-        const appointmentsWithDetails = await Promise.all(
-          appointments.map(async (appointment) => {
-            // Fetch customer details
-            const customer = await getUserById(appointment.customer);
-
-            // Fetch barber details
-            const barber = await getUserById(appointment.barber);
-
-            // Fetch service details for each service ID
-            const servicePromises = appointment.services.map((serviceId) =>
-              getServiceById(serviceId)
-            );
-            const services = await Promise.all(servicePromises);
-
-            // Format appointmentDate to YYYY-MM-DD
-            const formattedDate = formatDate(appointment.appointmentDate);
-            console.log("Testing barber date");
-            return {
-              ...appointment,
-              barber,
-              services,
-              customer,
-              appointmentDate: formattedDate,
-            };
-          })
-        );
-
-        return appointmentsWithDetails;
-      }
+      return appointmentsWithDetails;
     }
 
-    return []; // Return an empty array if the user is not logged in
+    return [];
   } catch (error) {
     throw new Error("Error fetching appointments");
   }

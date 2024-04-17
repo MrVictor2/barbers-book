@@ -23,16 +23,16 @@ exports.getAppointments = async (req, res) => {
 };
 
 exports.createAppointment = async (req, res) => {
-  const { barber, services, appointmentDate } = req.body;
-  const customerId = req.user._id; 
+  const { barber, services, appointmentDate } = req.body; // appointmentDate should include time
+  const customerId = req.user._id;
 
   const appointment = new Appointment({
     barber,
     services,
-    appointmentDate,
+    appointmentDate: new Date(appointmentDate), // Ensure this converts correctly
     customer: customerId
   });
-  
+
   try {
     const newAppointment = await appointment.save();
     res.status(201).json(newAppointment);
@@ -40,3 +40,4 @@ exports.createAppointment = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+
