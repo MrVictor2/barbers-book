@@ -32,15 +32,17 @@ export async function createAppointment(appointmentData) {
 }
 
 export async function getMyAppointments() {
+  console.log("Fetching appointments...");
   try {
     const user = getUser(); // Get the logged-in user
-
     if (user) {
       const appointments = await sendRequest(BASE_URL);
       const appointmentsWithDetails = await Promise.all(
         appointments.map(async (appointment) => {
-          const entityDetails = user.type === "customer" ?
+          // Fetch related user details based on user type (barber or customer)
+          const relatedUserDetails = user.type === "customer" ?
             await getUserById(appointment.barber) : await getUserById(appointment.customer);
+
           const servicePromises = appointment.services.map(serviceId =>
             getServiceById(serviceId)
           );
@@ -49,7 +51,8 @@ export async function getMyAppointments() {
 
           return {
             ...appointment,
-            entityDetails,
+            barber: user.type === "customer" ? relatedUserDetails : undefined,
+            customer: user.type === "barber" ? relatedUserDetails : undefined,
             services,
             appointmentDate: formattedDate,
           };
@@ -58,9 +61,9 @@ export async function getMyAppointments() {
 
       return appointmentsWithDetails;
     }
-
-    return [];
+    return []; // Return empty if no user is logged in
   } catch (error) {
+    console.error("Error in fetching appointments:", error);
     throw new Error("Error fetching appointments");
   }
 }
